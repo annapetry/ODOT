@@ -14,7 +14,7 @@ describe "Creating todo lists" do
     expect(page).to have_content("My todo list")
   end
   
-  it "displays an error then the todo list has no title" do
+  it "displays an error when the todo list has no title" do
     expect(TodoList.count).to eq(0)
     
     visit "/todo_lists"
@@ -32,7 +32,7 @@ describe "Creating todo lists" do
     expect(page).to_not have_content("This is what I'm doing today.")
   end
   
-  it "displays an error then the todo list has a title less than 3 chars" do
+  it "displays an error when the todo list has a title less than 3 chars" do
     expect(TodoList.count).to eq(0)
     
     visit "/todo_lists"
@@ -48,6 +48,42 @@ describe "Creating todo lists" do
     
     visit "/todo_lists"
     expect(page).to_not have_content("This is what I'm doing today.")
+  end
+  
+  it "displays an error when the todo list has no description" do
+    expect(TodoList.count).to eq(0)
+    
+    visit "/todo_lists"
+    click_link "New Todo list"
+    expect(page).to have_content("New todo_list")
+    
+    fill_in "Title", with: "My Todo list"
+    fill_in "Description", with: ""
+    click_button "Create Todo list"
+    
+    expect(page).to have_content("error")
+    expect(TodoList.count).to eq(0)
+    
+    visit "/todo_lists"
+    expect(page).to_not have_content("My Todo list")
+  end
+  
+  it "displays an error then the todo list has a description less than 5 chars" do
+    expect(TodoList.count).to eq(0)
+    
+    visit "/todo_lists"
+    click_link "New Todo list"
+    expect(page).to have_content("New todo_list")
+    
+    fill_in "Title", with: "My Todo list"
+    fill_in "Description", with: "Foob"
+    click_button "Create Todo list"
+    
+    expect(page).to have_content("error")
+    expect(TodoList.count).to eq(0)
+    
+    visit "/todo_lists"
+    expect(page).to_not have_content("My Todo list")
   end
 
 end
