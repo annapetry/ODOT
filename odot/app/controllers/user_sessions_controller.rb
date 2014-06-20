@@ -9,7 +9,7 @@ class UserSessionsController < ApplicationController
       flash[:success] = "Thanks for logging in!"
       redirect_to todo_lists_path
     else
-      flash[:error] = "There was a problem loggind in.  Please check you email and password."
+      flash[:error] = "There was a problem logging in.  Please check your email and password."
       render action: 'new'
     end
   end

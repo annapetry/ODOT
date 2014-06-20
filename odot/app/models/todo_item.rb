@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: todo_items
+#
+#  id           :integer          not null, primary key
+#  todo_list_id :integer
+#  content      :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  completed_at :datetime
+#
+
 class TodoItem < ActiveRecord::Base
   belongs_to :todo_list
   
