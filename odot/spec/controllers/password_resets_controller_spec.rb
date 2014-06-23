@@ -43,4 +43,29 @@ describe PasswordResetsController do
       end
     end
   end
+  
+  describe "GET edit" do
+    context "with a valid password_reset_token" do
+      let(:user) { create(:user) }
+      before{ user.generate_password_reset_token! }
+      
+      it "renders the edit template" do
+        get :edit, id: user.password_reset_token
+        expect(response).to render_template('edit')
+      end
+      
+      it "assigns a @user" do
+        get :edit, id: user.password_reset_token
+        expect(assigns(:user)).to eq(user)        
+      end
+    end
+    
+    context "with no password_reset_token found" do
+      it "renders the 404 page" do
+        get :edit, id: 'notfound'
+        expect(response.status).to eq(404)
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+      end
+    end
+  end
 end
