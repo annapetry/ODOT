@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  first_name      :string(255)
-#  last_name       :string(255)
-#  email           :string(255)
-#  password_digest :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                   :integer          not null, primary key
+#  first_name           :string(255)
+#  last_name            :string(255)
+#  email                :string(255)
+#  password_digest      :string(255)
+#  created_at           :datetime
+#  updated_at           :datetime
+#  password_reset_token :string(255)
 #
 
 require 'spec_helper'
@@ -71,5 +72,17 @@ describe User do
       expect(user.email).to eq("anna@petry.com")
     end
     
+    describe "#generate_password_reset_token" do
+      let(:user) { create :user }
+      
+      it "changes the password_reset_token attribute" do
+        expect{ user.generate_password_reset_token! }.to change{user.password_reset_token}
+      end
+      
+      it "calls SecureRandom.urlsafe_base64 to generate the password_reset_token" do
+        expect(SecureRandom).to receive(:urlsafe_base64)
+        user.generate_password_reset_token!
+      end
+    end
   
 end
