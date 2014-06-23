@@ -18,7 +18,7 @@ describe "users/new" do
       assert_select "input#user_first_name[name=?]", "user[first_name]"
       assert_select "input#user_last_name[name=?]", "user[last_name]"
       assert_select "input#user_email[name=?]", "user[email]"
-      assert_select "input#user_password_digest[name=?]", "user[password_digest]"
+      assert_select "input#user_password[name=?]", "user[password]"
     end
   end
 end
